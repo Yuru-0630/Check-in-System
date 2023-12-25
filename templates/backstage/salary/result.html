@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>
+        出勤時數表
+    </title>
+    {% include 'backstage/head_source.html' %}
+  </head>
+  <body class="container">
+    {% for salary in salary_list %}
+    <div class="tb_salary">
+      <center><h1 class="mt-5 m-3">出勤時數表</h1></center>
+      <h4>學號:{{ salary.stuID }}</h3>
+      <h4>姓名:{{ salary.name }}</h3>
+      <table class="table table-bordered">
+          <thead>
+            <th scope="col">日期</th>
+            <th scope="col">簽到時間</th>
+            <th scope="col">時數</th>
+          </thead>
+          <tbody>
+          {% for checkin_time in salary.checkin_time_list %}
+            <tr>
+              <td>{{ checkin_time.date }}</td>
+              <td>{{ checkin_time.time }}</td>
+              <td>3</td>
+            </tr>
+          </tbody>
+          {% endfor %}
+          <td colspan="2"></td>
+          <td>共計{{ salary.hours }}時</td>
+      </table>
+    </div>
+    {% endfor %}
+  </body>
+  <script>
+    window.onload = function(){
+      var h_A4 = 1200;
+      var h_sum = 0;
+      var tb_salary = document.getElementsByClassName("tb_salary");
+      for(var i = 0; i < tb_salary.length; i++){
+        h_sum += tb_salary[i].offsetHeight;
+        if(h_sum > h_A4){ // 超出高度換行
+          h_sum = tb_salary[i].clientHeight;
+          tb_salary[i-1].innerHTML += "<p style='page-break-after:always'> </p>"
+        }
+      }
+    }
+  </script>
+</html>

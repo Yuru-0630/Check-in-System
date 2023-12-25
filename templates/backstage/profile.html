@@ -1,0 +1,24 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        設定
+    </div>
+    <div class="card-body">
+        <form method="POST" action="/user/update_profile">{% csrf_token %}
+            API authentication_key： {{ authentication_key }}<br/><br/>
+            Line Notify Token： <input type="text" style="width: 80%;" name="line_notify_token" value="{{ line_notify_token }}">
+            <br/><br/>
+            <center><button class="btn btn-info">送出</button></center>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block customized_js %}
+{% endblock %}

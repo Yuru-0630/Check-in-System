@@ -1,0 +1,64 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        {{ activity.name }} - 參與人列表  
+        <div style="position: absolute;right: 20px;margin-top: -20px;"><a class="btn btn-outline-info btn-sm" href="/activity_form?Aid={{ activity.id }}"><strong>報名表單連結</strong></a></div>
+        
+        <!-- icon: insert_link -->
+        <!-- <div style="position: absolute;right: 20px;margin-top: -20px;"><a class="btn btn-outline-info btn-sm" href="/backstage/activity/checkin?Aid={{ activity.id }}"><strong>簽到系統</strong></a></div> -->
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-sm table-striped" id="data_table">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">系所</th>
+                        <th class="text-center">年級</th>
+                        <th class="text-center">學號</th>
+                        <th class="text-center">參與人姓名</th>
+                        <th class="text-center">報名時間</th>
+                        <th class="text-center">狀態</th>
+                        <th class="text-center">簽到時間</th>
+                        <th class="text-center">操作</th>
+                        <th style="display: none;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for participant in participant_objs %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td class="text-center">{{ participant.department }}</td>
+                    <td class="text-center">{{ participant.grade }}</td>
+                    <td class="text-center">{{ participant.student_ID_number }}</td>
+                    <td class="text-center">{{ participant.name }}</td>
+                    <td class="text-center">{{ participant.apply_time }}</td>
+                    <td class="text-center">
+                        <span class="badge badge-{% if participant.isCheckedin %}success">已簽到{% else %}danger">未簽到{% endif %}</span>
+                    </td>
+                    <td class="text-center">{{ participant.checkin_time }}</td>
+                    <td class="text-center"><a href="/checkin/generalAct_manual_checkin?Aid={{ activity.id }}&id={{ participant.attendance_id }}" class="btn btn-outline-success btn-sm">手動簽到</a></td>
+                    <td style="display: none;">{{ participant.name }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br/>
+    </div>
+</div>
+
+{% endblock %}
+{% block customized_js %}
+<script>
+    $(document).ready(function() {
+        $('#data_table').DataTable();
+    } );
+</script>
+{% endblock %}

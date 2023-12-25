@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="{{ favicon }}"/>
+    <title>活動報名</title>
+    {% include 'forestage/head_source.html' %}
+</head>
+
+<body >
+
+    <!--Main layout-->
+    <main class="mt-5 pt-5" >
+        <div class="container wow fadeIn">
+            <h2 class="my-3 h2 text-center">活動報名</h2>
+            <!--Card-->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="my-1 h5 text-left">{{activity.name}}</h5>    
+                </div>
+                <!--Card content-->
+                <form class="text-center border border-light p-5" action="/formResponse" method="POST">{% csrf_token %}
+                    <div class="row" >
+                        <div class="col-md-12 mb-2">
+                            <div class="md-form">
+                                <input name="Name" id="Name" type="text" class="form-control" aria-describedby="basic-addon1" required>
+                                <label for="Name" class="">姓名</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <div class="md-form">
+                                <input name="student_ID_number" id="student_ID_number" type="text" class="form-control" aria-describedby="basic-addon1" required>
+                                <label for="student_ID_number" class="">學號</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <div class="md-form">
+                                <select name="department" class="browser-default custom-select mb-3" required>
+                                    <option value="0" disabled>系所</option>
+                                    <option value="49">中國語文學系</option>
+                                    <option value="50">外國語文學系</option>
+                                    <option value="51">社會政策與社會工作學系</option>
+                                    <option value="52">公共行政與政策學系</option>
+                                    <option value="53">歷史學系</option>
+                                    <option value="54">東南亞學系</option>
+                                    <option value="55">華語文教學碩士學位學程</option>
+                                    <option value="56">非營利組織經營管理碩士學位學程</option>
+                                    <option value="57">原鄉發展跨領域學士學位學程原住民專班</option>
+                  
+                                    <option value="59">國際企業學系</option>
+                                    <option value="60">經濟學系</option>
+                                    <option value="61">資訊管理學系</option>
+                                    <option value="62">財務金融學系</option>
+                                    <option value="63">觀光休閒與餐旅管理學系</option>
+                  
+                                    <option value="67">土木工程學系</option>
+                                    <option value="68">資訊工程學系</option>
+                                    <option value="69">電機工程學系</option>
+                                    <option value="70">應用化學系</option>
+                                    <option value="72">應用材料及光電工程學系</option>
+                  
+                                    <option value="75">國際文教與比較教育學系</option>
+                                    <option value="76">教育政策與行政學系</option>
+                                    <option value="77">諮商心理與人力資源發展學系</option>
+                  
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <div class="md-form">
+                                <select name="grade" class="browser-default custom-select mb-3" required>
+                                    <option value="0" disabled>年級</option>
+                                    <option value="41">大學部一年級</option>
+                                    <option value="42">大學部二年級</option>
+                                    <option value="43">大學部三年級</option>
+                                    <option value="44">大學部四年級</option>
+                                    <option value="45">大學部五年級</option>
+                                    <option value="46">大學部六年級</option>
+                                    <option value="47">大學部七年級</option>
+                                    <option value="51">研究所一年級</option>
+                                    <option value="52">研究所二年級</option>
+                                    <option value="53">研究所三年級</option>
+                                    <option value="54">研究所四年級</option>
+                                  </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+                    
+                    <center>
+                        <input type="hidden" name="activity_id" value="{{activity.id}}"> 
+                        <input type="hidden" name="activity_name" value="{{activity.name}}"> 
+                        <button class="btn btn-primary" type="submit">送出 <i class="fa fa-paper-plane-o ml-1"></i></button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </main>
+    <!--Main layout-->
+
+    {% include 'forestage/footer.html' %}
+    {% include 'forestage/foot_source.html' %}
+
+    <script type="text/javascript">
+        new WOW().init();
+    </script>
+</body>
+
+</html>

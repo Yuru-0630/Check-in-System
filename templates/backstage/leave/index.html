@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>數位學伴請假表單</title>
+    {% include 'backstage/head_source.html' %}
+  </head>
+  <body class="app flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-9">
+          <div class="clearfix">
+            <div class="card">
+              <div class="card-header">
+                <center><h4>數位學伴請假表單</h4></center>
+              </div>
+              <div class="card-body">
+                <center><h5 class="text-muted my-2">請同學們務必於上課前三日完成請假手續，若不確定本表單是否填寫完成，請務必與助理確認。</h5></center>
+                  <form class="p-4" method="post" action="/leave/leave_apply" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="form-group row">
+                      <label for="applicant_name" class="col-sm-2 col-form-label font-weight-bold">姓名</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="applicant_name" name="applicant_name" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="applicant_kidSchool" class="col-sm-2 col-form-label font-weight-bold">負責的學校</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="applicant_kidSchool" name="applicant_kidSchool" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="leave_type" class="col-sm-2 col-form-label font-weight-bold">申請假別</label>
+                      <div class="col-sm-10">
+                        <label><input type="radio" name="leave_type" value="公假" required>公假</label>
+                        <label><input type="radio" name="leave_type" value="事假">事假</label>
+                        <label><input type="radio" name="leave_type" value="病假">病假</label>
+                        <label><input type="radio" name="leave_type" value="喪假">喪假</label>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="leave_reason" class="col-sm-2 col-form-label font-weight-bold">請假原因</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="leave_reason" name="leave_reason" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="leave_date" class="col-sm-2 col-form-label font-weight-bold">請假日期</label>
+                      <div class="col-sm-10">  
+                        <input type="date" class="form-control" id="leave_date" name="leave_date" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="sub_name" class="col-sm-2 col-form-label font-weight-bold">代課學伴姓名</label>
+                      <div class="col-sm-10">  
+                        <input type="text" class="form-control" id="sub_name" name="sub_name" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="sub_kidSchool" class="col-sm-2 col-form-label font-weight-bold">代課學伴負責學校</label>
+                      <div class="col-sm-10">  
+                        <input type="text" class="form-control" id="sub_kidSchool" name="sub_kidSchool" required>
+                      </div>
+                    </div> 
+                    <center><input type="submit" class="btn btn-primary mt-3" value="送出"></center>
+                  </form>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    {% include 'backstage/foot_source.html' %}
+  </body>
+</html>

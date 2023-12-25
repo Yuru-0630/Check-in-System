@@ -1,0 +1,201 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+
+<div class="card">
+    <div class="card-header">
+        <label class="switch switch-3d switch-primary">
+            <input id="btn_isServing" type="checkbox" class="switch-input" {% if isServing %}checked{% endif %}>
+            <span class="switch-label"></span>
+            <span class="switch-handle"></span>
+        </label>
+        大學伴列表
+        <div style="position: absolute;right: 20px;margin-top: -20px;">
+            <button class="btn btn-outline-warning btn-sm" onclick="stop_all_service();" >
+                取消所有服務中的狀態
+            </button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <ul class="horizontal-bars">
+            <li class="legend">
+                <span class="badge badge-pill badge-success"></span>
+                <small>應屆大學伴</small> &nbsp;
+                <span class="badge badge-pill badge-light"></span>
+                <small>歷屆大學伴</small> &nbsp;
+            </li>
+        </ul>
+        
+        <form method="POST" action="/user/update_companion">
+            {% csrf_token %}
+            <div class="table-responsive">
+                <table class="table table-responsive-sm table-striped" id="data_table">
+                    <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">照片</th>
+                        <th class="text-center" style="width:100px">使用者名稱</th>
+                        <th class="text-center">系所</th>
+                        <th class="text-center">年級</th>
+                        <th class="text-center" style="width:110px">學號</th>
+                        <th class="text-center" style="width:110px">學生證號碼</th>
+                        <th class="text-center">是否服務中</th>
+                        <th class="text-center">操作</th>
+                        <th style="display: none;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for companion in companion_list %}
+                    <tr>
+                        <td class="text-center">{{ companion.id }}</td>
+                        <td class="text-center">
+                            <div class="avatar">
+                                <a href="#">
+                                <img src="{% static 'icon/user_no_img.png' %}" class="img-avatar">
+                                </a>
+                                <span class="avatar-status badge-{% if companion.isServing %}success{% else %}light{% endif %}
+                                "></span>
+                            </div>
+                        </td>
+                        <td class="text-center"><input style="width:100px" type="text" value="{{ companion.name }}" name="name_{{ companion.id }}"></td>
+                        <td class="text-center">
+                            <select class="form-control" id="department_id" name="department_id_{{ companion.id }}" >
+                                {% for department in department_objs %}
+                                
+                                <option value="{{ department.id }}" 
+                                    {% if department.id == companion.department_id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ department.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control" id="grade" name="grade_{{ companion.id }}" >
+                                {% for grade in grade_objs %}
+                                <option value="{{ grade.id }}"
+                                    {% if grade.id == companion.grade_id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ grade.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td class="text-center" ><input style="width:110px" type="text" name="student_ID_number_{{ companion.id }}" value="{{ companion.student_ID_number }}"></td>
+                        <td class="text-center" ><input style="width:110px" type="text" name="student_ID_card_number_{{ companion.id }}" value="{{ companion.student_ID_card_number }}"></td>
+                        <td class="text-center">
+                            <input type="checkbox" name="isServing_{{ companion.id }}"
+                            {% if companion.isServing %}
+                            checked
+                            {% endif %}
+                            >
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-outline-secondary btn-sm"  onclick="if(confirm('確定要刪除？')){window.location='/user/delete_companion?Cid={{ companion.id }}'}" >刪除</a>
+                        </td>
+                        <td style="display: none;"><input type="number" name="companion_id_{{ companion.id }}" value="{{ companion.id }}"> {{ companion.name }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+            <center>
+                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#exampleModalLong">新增</a>&nbsp;
+                <input class="btn btn-info" type="submit" value="更新"/>
+            </center>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <form method="POST" action="/user/add_companion" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">新增大學伴</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="form-group">
+                    <label for="photo">相片</label>
+                    <input type="file" name="photo" class="form-control" id="photo">
+                </div> -->
+                <div class="form-group">
+                    <label for="name">名稱</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="名稱">
+                </div>
+                <div class="form-group">
+                    <label for="department_id">系所</label>
+                    <select class="form-control" id="department_id" name="department_id" >
+                        {% for department in department_objs %}
+                        <option value="{{ department.id }}">
+                            {{ department.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="grade">年級</label>
+                    <select class="form-control" id="grade" name="grade" >
+                        {% for grade in grade_objs %}
+                        <option value="{{ grade.id }}">
+                            {{ grade.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student_ID_number">學號</label>
+                    <input type="text" class="form-control" id="student_ID_number" name="student_ID_number" placeholder="學號">
+                </div>
+                <div class="form-group">
+                    <label for="student_ID_card_number">學生證號碼</label>
+                    <input type="text" class="form-control" id="student_ID_card_number" name="student_ID_card_number" placeholder="學生證號碼">
+                </div>
+                <div class="form-group">
+                    <label for="note">備註</label>
+                    <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center" >
+                <input type="submit" class="btn btn-info" value="Save">
+            </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block customized_js %}
+<script>
+    $(document).ready(function() {
+        $('#data_table').DataTable();
+        $("#btn_isServing").change(function() {
+            {% if isServing %}
+            window.location.href = "/backstage/user/companion/not_serving"; 
+            {% else %}
+            window.location.href = "/backstage/user/companion/serving"; 
+            {% endif %}
+        });
+    } );
+    var stop_all_service = function(){
+        if (confirm(`該操作無法回復，請問確定要取消所有服務中的狀態？`)){
+            location.href = '/user/stop_all_service';
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        大學伴獎助金列表
+    </div>
+
+    <div class="card-body">
+        <form action="" method="POST">{% csrf_token %}
+            開始日期<input class="mx-2" type="date", value="{{ startDate }}" name='startDate' required>
+            結束日期<input class="mx-2" type="date", value="{{ endDate }}" name='endDate' required>
+            <button type="submit" class="m-2">查詢</button><button type="button" id="submitBtn" onclick="check_null('compForm', 'checkbox_comp')">產生出勤表</button>
+          </form>
+        <form action="/backstage/salary/show", method="POST" id="compForm" target="_blank">{% csrf_token %}
+          <table class="table table-striped">
+              <thead>
+                <th scope="col"><input type="checkbox" onclick="check_all(this,'checkbox_comp')"></th>
+                <th scope="col">學號</th>
+                <th scope="col">大學伴姓名</th>
+                <th scope="col">上課次數</th>
+                <th scope="col">總時數</th>
+              </thead>
+              <tbody>
+              {% for salary in salary_list %}
+                <tr>
+                  <td><input type="checkbox" name="comp_{{ salary.comp_id }}" class="checkbox_comp"></td>
+                  <td>{{ salary.stuID }}</td>
+                  <td>{{ salary.name }}</td>
+                  <td>{{ salary.classTimes }}</td>
+                  <td>{{ salary.hours }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+          <input type="hidden" name="startDate" value="{{ startDate }}">
+          <input type="hidden" name="endDate" value="{{ endDate }}">
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
+{% block customized_js %}
+<script>
+function check_all(obj,cName)
+{
+  var checkboxs = document.getElementsByClassName(cName);
+  for(var i=0;i<checkboxs.length;i++)
+    checkboxs[i].checked = obj.checked;
+}
+function check_null(idForm, cName)
+{
+  var checkbox_comp = document.getElementsByClassName(cName);
+  for(var i in checkbox_comp){
+    if(checkbox_comp[i].checked){
+      document.getElementById(idForm).submit();
+      return;
+    }
+  }
+  alert("請選擇要產生出勤表的大學伴");
+}
+</script>
+
+{% endblock %}

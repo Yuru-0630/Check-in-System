@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>數位學伴期末評分查詢系統</title>
+    {% include 'backstage/head_source.html' %}
+  </head>
+  <body class="app flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="clearfix">
+            <h1 class="float-left display-4 mr-4">{{ side_info }}</h1>
+            <h4>{{ score }}</h4>
+            <h4>{{ title }}</h4>
+            <p class="text-muted"><a href="/score_revision">回上一頁</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'backstage/foot_source.html' %}
+  </body>
+</html>

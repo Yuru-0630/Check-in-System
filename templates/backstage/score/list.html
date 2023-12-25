@@ -1,0 +1,73 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+
+<h2>期末評比資料上傳</h2>
+<a href="/static/file/學期評分結果範例.xlsx">範例檔下載</a>
+<form method="POST" action="/score/upload_file" enctype="multipart/form-data">{% csrf_token %}
+學期編號：<input type="text" name="semester" placeholder="1081"><br/> 
+<!-- 申請分數門檻：<input type="number" name="threshold" placeholder="80"><br/>  -->
+檔案：<input type="file" name="score"><br/> 
+<input type="submit" value="送出">
+</form>
+<br/>
+<div class="card">
+    <div class="card-header">
+        {{ semester }} 期末評比
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-sm table-striped" id="data_table">
+                <thead>
+                <tr>
+                    <th class="text-center">學號</th>
+                    <th class="text-center">姓名</th>
+                    <th class="text-center">線上教學出席率(20%)</th>
+                    <th class="text-center">期初教育訓練(8%)</th>
+                    <th class="text-center">其他活動(8%)</th>
+                    <th class="text-center">相見歡(4%)</th>
+                    <th class="text-center">教學表現(25%)</th>
+                    <th class="text-center">自製教材認真度、創新度(20%)</th>
+                    <th class="text-center">教學日誌內容詳實度(15%)</th>
+                    <th class="text-center">遲到(-0.5%)</th>
+                    <th class="text-center">其他</th>
+                    <th class="text-center">總分</th>
+                    <th class="text-center">備註</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for obj in score_objs %}
+                    <tr>
+                        <td class="text-center">{{ obj.student_ID_number }}</td>
+                        <td class="text-center">{{ obj.name }}</td>
+                        <td class="text-center">{{ obj.attendence }}</td>
+                        <td class="text-center">{{ obj.beginning_education }}</td>
+                        <td class="text-center">{{ obj.other_activity }}</td>
+                        <td class="text-center">{{ obj.together }}</td>
+                        <td class="text-center">{{ obj.teaching }}</td>
+                        <td class="text-center">{{ obj.material }}</td>
+                        <td class="text-center">{{ obj.log }}</td>
+                        <td class="text-center">{{ obj.late }}</td>
+                        <td class="text-center">{{ obj.other }}</td>
+                        <td class="text-center">{{ obj.total }}</td>
+                        <td class="text-center">{{ obj.note }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block customized_js %}
+<script>
+    $(document).ready(function() {
+        $('#data_table').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="{{ favicon }}"/>
+    <title>活動報名</title>
+    {% include 'forestage/head_source.html' %}
+</head>
+<style>
+main {
+    min-height: 100vh;
+}
+</style>
+<body >
+
+    <!--Main layout-->
+    <main class="mt-5 pt-5" >
+        <div class="container wow fadeIn">
+            <h2 class="my-5 h2 text-center">活動報名</h2>
+            <!--Card-->
+            <div class="card my-5">
+                <div class="card-header">
+                    <h5 class="my-1 h5 text-left">{{activity_name}}</h5>    
+                </div>
+                <!--Card content-->
+                <br/>
+                <center>
+                    {{msg}}
+                </center>
+                <br/>
+            </div>
+        </div>
+    </main>
+    <!--Main layout-->
+
+    {% include 'forestage/footer.html' %}
+    {% include 'forestage/foot_source.html' %}
+
+    <script type="text/javascript">
+        new WOW().init();
+    </script>
+</body>
+
+</html>

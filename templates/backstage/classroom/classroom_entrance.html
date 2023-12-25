@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>數位學伴線上教室入口</title>
+    {% include 'backstage/head_source.html' %}
+  </head>
+  <body class="app flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <div class="clearfix">
+            <center><h2 class="mt-5">學期配對表</h3></center>
+            <center><h4 class="text-muted">數位學伴線上教室入口</h5></center>
+              {% for tb in tbs %}
+                <h5 class="mt-5 my-3">學校：{{ tb.school_name }}</h5>
+                <table class="table table-bordered">
+                  <tr class="bg-primary text-center">
+                    <th>#</th>
+                    <th colspan="2">時段一</th>
+                    <th colspan="2">時段二</th>
+                  </tr>
+                  <tr class="table-primary text-center">
+                    <th scope="col">小學伴</th>
+                    <th scope="col">大學伴</th>
+                    <th scope="col">科目</th>
+                    <th scope="col">大學伴</th>
+                    <th scope="col">科目</th>
+                  </tr>
+                  <tbody>
+                    {% for row in tb.rows %}
+                      <tr class="table-light text-center">
+                        {% if row.today_meet_code == 'None' %}
+                          <th scope="row" class="">{{ row.student_name }}</th>
+                        {% else %}
+                          <th scope="row" class=" font-weight-bold">
+                            <a href="{{ row.today_meet_code }}" class="text-warning">{{ row.student_name }}</a>
+                            <button type="button" id="copy-btn-{{ row.student_id }}" class="btn btn-outline-info ml-1" onclick="copy_text('copy-btn-{{ row.student_id }}','copy-value-{{ row.student_id }}')">複製會議代碼</button>
+                            <input type="input" id="copy-value-{{ row.student_id }}" value="{{ row.today_meet_code }}"   style="display: none;">
+                            <!-- <input type="input" id="copy-value-{{ row.student_id }}" value="{{ row.today_meet_code }}"> -->
+                          </th>
+                        {% endif %}
+                        <td>{{ row.p1_companion_name }}</td>
+                        <td>{{ row.p1_subj }}</td>
+                        <td>{{ row.p2_companion_name }}</td>
+                        <td>{{ row.p2_subj }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'backstage/foot_source.html' %}
+  </body>
+  <script>
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function copy_text(btn_id, text_id){
+      var copyText = document.getElementById(text_id);
+      copyText.style.display = "inline";
+      copyText.select();
+      document.execCommand("Copy");
+      copyText.style.display = "none";
+      // alert(copyText.value);
+      
+      var copyBtn = document.getElementById(btn_id);
+      console.log(copyBtn.innerHTML)
+      copyBtn.innerHTML = "已複製！"
+      await sleep(300);
+      copyBtn.innerHTML = "複製會議代碼"
+    }
+  </script>
+</html>

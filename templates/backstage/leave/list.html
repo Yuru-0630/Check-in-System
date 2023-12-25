@@ -1,0 +1,59 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+
+<div class="card">
+    <div class="card-header">
+        請假申請
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-sm table-striped" id="data_table">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">申請學伴</th>
+                        <th class="text-center">請假原因</th>
+                        <th class="text-center">申請假別</th>
+                        <th class="text-center">請假日期</th>
+                        <th class="text-center">代班學伴</th>
+                        <th class="text-center">申請時間</th>
+                        <th class="text-center">申請學伴負責學校</th>
+                        <th class="text-center">代班學伴負責學校</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for obj in leave_objs %}
+                    <tr>
+                        <td class="text-center">{{ obj.id }}</td>
+                        <td class="text-center">{{ obj.applicant_name }}</td>
+                        <td class="text-center">{{ obj.leave_reason }}</td>
+                        <td class="text-center">{{ obj.leave_type }}</td>
+                        <td class="text-center">{{ obj.leave_date }}</td>
+                        <td class="text-center">{{ obj.sub_name }}</td>
+                        <td class="text-center">{{ obj.apply_dateTime }}</td>
+                        <td class="text-center">{{ obj.applicant_kidSchool }}</td>
+                        <td class="text-center">{{ obj.sub_kidSchool }}</td>
+                        <td class="text-center">
+                            <a class="btn btn-outline-secondary btn-sm"  onclick="if(confirm('確定要核准？')){window.location='/leave/review_apply'}" >核准</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block customized_js %}
+<script>
+    $(document).ready(function() {
+        $('#data_table').DataTable();
+    } );
+</script>
+{% endblock %}

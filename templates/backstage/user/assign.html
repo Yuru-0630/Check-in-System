@@ -1,0 +1,96 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<form id='assign_form' method="POST" action="/user/assign_shift" enctype="multipart/form-data">{% csrf_token %}
+<div class="card">
+  <div class="card-header">
+      參數調適 (權重愈大出現機率愈小)
+  </div>
+  <div class="card-body">
+    <div class="row" id="shift_opt">
+    </div>
+  </div>
+</div>
+  <div class="card">
+      <div class="card-header">
+          基本資料檔案上傳
+      </div>
+      <div class="card-body">
+        <i class="material-icons">location_city</i>
+        <label for="f_kidSchool" class="h5 m-2 ">學校 (小學伴) 資訊</label>
+        <a href="/static/file/學校資訊範例.xlsx" class="btn btn-outline-info mb-1">範例檔案下載</a>
+        <div class="custom-file mb-4">
+          <input type="file" accept=".csv, .xlsx" class="custom-file-input" id="f_kidSchool" name="f_kidSchool" required>
+          <label class="custom-file-label" for="f_kidSchool">請上傳 csv 或 xlsx 檔案</label>
+        </div>
+        
+        <i class="material-icons">child_care</i>
+        <label for="f_kidMate" class="h5 m-2 ">小學伴資訊</label>
+        <a href="/static/file/小學伴資訊範例.xlsx" class="btn btn-outline-info mb-1">範例檔案下載</a>
+        <div class="custom-file mb-4">
+          <input type="file" accept=".csv, .xlsx" class="custom-file-input" id="f_kidMate" name="f_kidMate" required>
+          <label class="custom-file-label" for="f_kidMate">請上傳 csv 或 xlsx 檔案</label>
+        </div>
+        
+        <i class="material-icons">record_voice_over</i>
+        <label for="f_uniMate" class="h5 m-2 ">大學伴資訊</label>
+        <a href="/static/file/大學伴資訊範例.xlsx" class="btn btn-outline-info mb-1">範例檔案下載</a>
+        <div class="custom-file mb-4">
+          <input type="file" accept=".csv, .xlsx" class="custom-file-input" id="f_uniMate" name="f_uniMate" required>
+          <label class="custom-file-label" for="f_uniMate">請上傳 csv 或 xlsx 檔案</label>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-dark" id="btnSubmit">開始排班</button>
+        </div>
+      </div>
+  </div>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="loadModal" tabindex="-1" role="dialog" aria-labelledby="loadModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="justify-content-left">系統努力排班中請稍候片刻...</h5>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block customized_js %}
+<script>
+  // 讓檔案名字出現
+  $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
+
+  // 送出資料後
+  $("#assign_form").submit(function() {
+    $('#loadModal').modal('show');
+  });
+
+  // 參數調適
+  var opt = ['大學伴科目不符', '大學伴所帶小學伴數量超過上限', '大學伴沒有配到指定小學伴'];
+  var optName = ['subj', 'limit', 'assign'];
+  var colSize = parseInt(12/(opt.length));
+
+  for (var idx in opt){
+    document.getElementById("shift_opt").innerHTML += 
+      '<div class="p-3 col-'+colSize+'"><label>'+opt[idx]+'</label> <select class="form-control" name="opt-'+optName[idx]+'"><option>1</option><option>2</option></select></div>';
+  }
+  document.getElementById("shift_opt").innerHTML += '<div class="col-'+colSize+'" style="display:none"><label>'+'科目相同'+'</label> <select class="form-control" id="opt-svg"><option>1</option><option>2</option></select></div>';
+</script>
+{% endblock %}

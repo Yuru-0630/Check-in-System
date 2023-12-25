@@ -1,0 +1,41 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        說明
+    </div>
+    <div class="card-body">
+
+    </div>
+</div>
+    
+<div class="card">
+    <div class="card-header">
+        設定
+    </div>
+    <form method="POST">{% csrf_token %}
+        <div class="card-body">
+        </div>
+        <div class="card-footer">
+            <center>
+                <input class="btn btn-sm btn-primary" type="submit" value="送出">
+            </center>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        結果視覺化
+    </div>
+    <div class="card-body">
+    </div>
+</div>
+{% endblock %}
+{% block customized_js %}
+{% endblock %}

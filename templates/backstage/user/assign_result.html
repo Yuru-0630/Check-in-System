@@ -1,0 +1,115 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+          <div class="col-6">
+            排班結果<a href="/media/tmp/result.csv" class="btn btn-outline-success material-icons m-2" title="下載排班結果">file_download</a>
+            大學伴排班狀況<a href="/media/tmp/result_uniMate_status.csv" class="btn btn-outline-success material-icons m-2" title="下載大學伴排班狀況">file_download</a>
+          </div>
+          <div class="col-6 text-right">
+            <button id="reloadBtn" type="button" class="btn btn-primary m-2">重新產生排班結果</button>
+          </div>
+        </div>
+    </div>
+    <div class="card-body">
+      {% if not isFit %}
+      <div id="errInfo" class="alert alert-danger" role="alert">
+        <div class="row my-1">
+          <div class="col-12"><h3>尚未達成條件</h3></div>
+        </div>
+      </div>
+      {% endif %}
+      <table class="table table-striped">
+        <thead>
+          <th scope="col">小學伴學校</th>
+          <th scope="col">小學伴姓名</th>
+          <th scope="col">時段</th>
+          <th scope="col">科目</th>
+          <th scope="col">大學伴姓名</th>
+        </thead>
+        <tbody>
+        {% for line in shift %}
+          <tr>
+            <td>{{line.kidSchool}}</td>
+            <td>{{line.kidMate}}</td>
+            <td>{{line.time}}</td>
+            <td>{{line.subj}}</td>
+            {% if line.uniMate == None %}
+            <td><mark class="bg-danger">{{line.uniMate}}</mark></td>
+            {% else %}
+            <td>{{line.uniMate}}</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="loadModal" tabindex="-1" role="dialog" aria-labelledby="loadModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="justify-content-left">系統努力排班中請稍候片刻...</h5>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+          <div class="spinner-grow text-primary my-5 mx-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block customized_js %}
+<script>
+  $("#reloadBtn").click(function () {
+    if (confirm(`系統不會紀錄該次排班結果，如未下載，重新排班將會遺失該次內容，請問是否確定要執行?`)){
+      location.reload();
+      $('#loadModal').modal('show');
+    }
+  });
+
+  // 無法達成排班錯誤訊息
+  var reason = ["查無指定小學伴", "沒有達成大學伴指定搭配", "失敗組合", "大學伴之小學伴數量超過上限", "還沒有小學伴的大學伴"];
+  var keyErr = [
+                "{% for line in nameErr %}<li>{{ line }}</li>{% endfor %}", 
+                "{% for line in assignErr %}<li>{{ line }}</li>{% endfor %}",
+                "{% for line in fitErr %}<li>{{ line }}</li>{% endfor %}",
+                "{% for line in limitErr %}<li>{{ line }}</li>{% endfor %}",
+                "{% for line in noKidErr %}<li>{{ line }}</li>{% endfor %}",
+              ];
+  var display = [
+                {% if nameErr == None %}false{% else %}true{% endif %},
+                {% if assignErr == None %}false{% else %}true{% endif %},
+                {% if fitErr == None %}false{% else %}true{% endif %},
+                {% if limitErr == None %}false{% else %}true{% endif %},
+                {% if noKidErr == None %}false{% else %}true{% endif %},
+              ]
+
+  for (var idx in reason){
+    if(display[idx]){
+      document.getElementById("errInfo").innerHTML += '\
+        <div class="row my-3">\
+            <div class="col-2 text-right"><i class="material-icons">build</i></div>\
+            <div class="col-10 text-left"><h4>'+reason[idx]+'</h4></div>\
+          </div>\
+          <div class="row">\
+            <div class="col-2 text-right"></div>\
+            <div class="col-10 text-left">\
+              '+ keyErr[idx] +'\
+            </div>\
+          </div>'
+    }
+  }
+</script>
+{% endblock %}

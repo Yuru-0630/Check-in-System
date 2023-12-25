@@ -1,0 +1,68 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        活動列表
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-sm table-striped" id="data_table">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">日期</th>
+                        <th class="text-center">星期</th>
+                        <th class="text-center">備註</th>
+                        <th class="text-center">操作</th>
+                        <th style="display: none;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for class in class_objs %}
+                <tr>
+                    <td class="text-center">{{ class.id }}</td>
+                    <td class="text-center"><a href="/backstage/class/attendance?Cid={{ class.id }}" >{{ class.date }}</a></td>
+                    <td class="text-center">{{ class.day }}</td>
+                    <td class="text-center">{{ class.note }}</td>
+                    <td class="text-center">
+                        <a class="btn btn-outline-secondary btn-sm"  onclick="if(confirm('確定要刪除？')){window.location='/checkin/delete_class?Cid={{ class.id }}'}" >刪除</a>
+                    </td>
+                    <td style="display: none;">{{ class.day }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br/>
+        <center>
+            <a class="btn btn-primary" onclick="add_class();" href="#" data-toggle="modal" data-target="#exampleModalLong">手動新增今日課程</a>&nbsp;
+        </center>
+    </div>
+</div>
+
+{% endblock %}
+{% block customized_js %}
+<script>
+    $(document).ready(function() {
+        $('#data_table').DataTable({
+            "order": [[ 0, "desc" ]]
+        });
+    } );
+    var add_class = function() {
+        var d = new Date();
+        var n = d.getDay();
+        if(n==0){
+            n = 7;
+        }
+        let url = "/checkin/manual_add_today_class?day="+n.toString();
+        window.location = url;
+    }
+</script>
+
+{% endblock %}

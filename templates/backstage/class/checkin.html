@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>週{{ class_day }}課程 - 簽到系統</title>
+
+        {% include 'backstage/head_source.html' %}
+    </head>
+    <style>
+    
+    .ajs-message.ajs-success
+    {
+        left: -80vw;
+        width: 61vw;
+        top:-25vh;
+        line-height: 25vh;
+        font-size: 3.5em;
+        height: 30vh;
+    }
+
+    .ajs-message.ajs-error 
+    {
+        font-size: 3.5em;
+        line-height: 42vh;
+        top:-25vh;
+        left: -80vw;
+        width: 61vw;
+        height: 50vh;
+    }
+    .ajs-message.ajs-warning
+    {
+        font-size: 3.5em;
+        line-height: 24vh;
+        top:-25vh;
+        left: -80vw;
+        width: 61vw;
+        height: 30vh;
+    }
+
+    </style>
+    <body>
+        <header class="app-header navbar">
+            &nbsp;&nbsp;&nbsp;&nbsp; 週{{ class_day }}課程 - 簽到系統
+        <a href="/backstage/class/attendance?Cid={{ class.id }}" style="margin-right: 25px;">回到後台</a>
+        </header>
+        <main class="main">
+            <div class="container-fluid">
+                <div class="animated fadeIn">
+                <br/><br/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                            <div class="card-header">
+                                <i class="fa fa-edit"></i>請感應學生證
+                            </div>
+                            <div class="card-body collapse show" id="collapseExample">
+                                <form id="class_check_in_form">
+                                    <input type="hidden" name="class_id" id="class_id" value="{{ class.id }}">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="prependedInput">學生證號碼</label>
+                                        <div class="controls">
+                                        <div class="input-prepend input-group">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text">@</span>
+                                            </div>
+                                            <input type="text" id="student_ID_card_number" name="student_ID_card_number" class="form-control" autofocus>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <!--/.row-->
+                </div>
+            </div>
+        </main>
+        {% include 'backstage/foot_source.html' %}
+        <script>
+            $('#class_check_in_form').bind('submit', function(event){
+                event.preventDefault();
+                let student_ID_card_number = $('#student_ID_card_number').val();
+                $('#student_ID_card_number').val("");
+                let class_id = $('#class_id').val();
+                let url = "/checkin/class_checkin?SIDCN="+student_ID_card_number+"&Cid="+class_id.toString();
+                fetch(url, {
+                    method: 'GET',
+                }).then((response) => {
+                    return response.json(); 
+                }).then((jsonData) => {
+                    if (jsonData["status_code"] == 0){
+                        alertify.error(jsonData["status"]);
+                    }
+                    else if (jsonData["status_code"] == 1){
+                        alertify.success(jsonData["status"]);
+                    }
+                    else if (jsonData["status_code"] == 2){
+                        alertify.warning(jsonData["status"]);
+                    }
+                }).catch((err) => {
+                    console.log('錯誤:', err);
+                });
+                
+            });
+            
+        </script>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        大學伴排班列表
+        <div style="position: absolute;right: 20px;margin-top: -20px;"><button class="btn btn-outline-warning btn-sm" onclick="cancel_all_schedule();" >清空所有排班資訊</button></div>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="/user/update_schedule">
+            {% csrf_token %}
+            <div class="table-responsive">
+                <table class="table table-responsive-sm table-bordered" id="data_table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">大學伴姓名</th>
+                            <th class="text-center">一</th>
+                            <th class="text-center">二</th>
+                            <th class="text-center">三</th>
+                            <th class="text-center">四</th>
+                            <th class="text-center">五</th>
+                            <th style="display: none;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for companion in companion_objs %}
+                    <tr>
+                        <td class="text-center">{{ companion.id }}</td>
+                        <td class="text-center">{{ companion.name }}</td>
+                        <td class="text-center">
+                            <input type="checkbox" name="day1_{{ companion.id }}" {% if companion.day1 %} checked {% endif %}>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="day2_{{ companion.id }}" {% if companion.day2 %} checked {% endif %}>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="day3_{{ companion.id }}" {% if companion.day3 %} checked {% endif %}>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="day4_{{ companion.id }}" {% if companion.day4 %} checked {% endif %}>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="day5_{{ companion.id }}" {% if companion.day5 %} checked {% endif %}>
+                        </td>
+                        <td style="display: none;"><input type="number" name="companion_id_{{ companion.id }}" value="{{ companion.id }}">{{ companion.name }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+            <center>
+                <input class="btn btn-info" type="submit" value="更新"/>
+            </center>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block customized_js %}
+<script>
+    $(document).ready(function() {
+        $('#data_table').DataTable();
+    } );
+    var cancel_all_schedule = function(){
+        if (confirm(`該操作無法回復，請問確定要刪除所有排班列表？`)){
+            location.href = '/user/cancel_all_schedule';
+        }
+    }
+</script>
+{% endblock %}

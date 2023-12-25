@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>數位學伴線上教室入口 - 夥伴學校</title>
+    {% include 'backstage/head_source.html' %}
+  </head>
+  <body class="app flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <div class="clearfix">
+            <center><h2 class="mt-5">夥伴單位</h2></center>
+            <center><h4 class="text-muted">數位學伴線上教室入口</h4></center>
+
+            <table class="table table-hover table-primary mt-5">
+              <thead>
+                <tr class="">
+                  <th scope="col" >計畫相關網站</th>
+                  <th scope="col">網站連結</th>
+                </tr>
+              </thead>
+                <tr class="table-light">
+                  <th scope="row">數位學伴入口網</th>
+                  <td><a href="https://etutor-t.moe.gov.tw/admin/">https://etutor-t.moe.gov.tw/admin/</a></td>
+                </tr>
+                <tr class="table-light">
+                  <th scope="row">USR計畫課輔日誌系統</th>
+                  <td><a href="http://163.22.21.30/usr/">http://163.22.21.30/usr/</a></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-hover table-success mt-5">
+                <thead>
+                  <tr class="">
+                    <th scope="col" >夥伴學校</th>
+                    <th scope="col">線上教室入口連結</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for school in school_list%}
+                  <tr class="table-light">
+                    <th scope="row">{{ school.name }}</th>
+                    <td id="classroom_link_{{ school.id }}"></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'backstage/foot_source.html' %}
+  </body>
+  <script>
+    window.onload = function(){
+      console.log("Hi")
+      var school_ids = JSON.parse('{{ school_ids }}')
+      for ( var idx in school_ids ){
+        var link = document.getElementById("classroom_link_" + school_ids[idx]);
+        link.innerHTML = "<a href='" + window.location + school_ids[idx] + "' class='text-success'>" 
+                            + window.location + school_ids[idx] 
+                            + "</a>"
+      }
+    }
+  </script>
+</html>

@@ -1,0 +1,122 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        週{{ class_day }}課程 - 大學伴列表
+        <div style="position: absolute;right: 20px;margin-top: -20px;"><a class="btn btn-outline-info btn-sm" href="/backstage/class/checkin?Cid={{ class.id }}"><strong>簽到系統</strong></a></div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-sm table-striped" id="data_table">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">大學伴姓名</th>
+                        <th class="text-center">系所</th>
+                        <th class="text-center">狀態</th>
+                        <th class="text-center">簽到時間</th>
+                        <th class="text-center">操作</th>
+                        <th style="display: none;"></th>
+                        <th style="display: none;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for companion in companion_list %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td class="text-center">{{ companion.name }}</td>
+                    <td class="text-center">{{ companion.department }}</td>
+                    <td class="text-center">
+                        <span class="badge badge-{% if companion.isCheckedin %}success">已簽到{% else %}danger">未簽到{% endif %}</span>
+                    </td>
+                    <td class="text-center">{{ companion.checkin_time }}</td>
+                    <td class="text-center"><a href="/checkin/class_manual_checkin?Cid={{ class.id }}&cid={{ companion.id }}" class="btn btn-outline-success btn-sm">手動簽到</a></td>
+                    <td style="display: none;">{{ companion.name }}</td>
+                    <th style="display: none;">{{ companion.department }}</th>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br/>
+        <center>
+            <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#exampleModalLong">新增代課大學伴</a>&nbsp;
+        </center>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <form method="POST" action="/checkin/add_substitute_companion" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="class_id" value="{{ class.id }}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">新增代課大學伴</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="department_id">系所</label>
+                    <select class="form-control" id="department_id" name="department_id" >
+                        <option value="0" disabled>請選擇系所</option>
+                        {% for department in department_objs %}
+                        <option value="{{ department.id }}">
+                            {{ department.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="companion_id">姓名</label>
+                    <select class="form-control" id="companion_id" name="companion_id" >
+                    </select>
+                </div>
+                
+            </div>
+            <div class="modal-footer justify-content-center" >
+                <input type="submit" class="btn btn-info" value="Add">
+            </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+{% block customized_js %}
+<script>
+    $("#department_id").val(0);
+    $("#department_id").change(function(){
+        var tmp = "";
+        var url = "/user/get_all_serving_companions_of_one_department?department_id=";
+        url += $("#department_id").val().toString()
+        fetch(url, {
+            method: 'GET',
+        }).then((response) => {
+            return response.json(); 
+        }).then((jsonData) => {
+            let companion_list = jsonData["companion_list"];
+            console.log(companion_list);
+        
+            for(var i=0;i<companion_list.length;i++){
+                console.log(i)
+                tmp += `<option value="`+companion_list[i]["id"].toString()+`">`+companion_list[i]["name"]+`</option>`;
+                $("#companion_id").html(tmp);
+            }
+        }).catch((err) => {
+            console.log('錯誤:', err);
+        });
+    })
+    $(document).ready(function() {
+        $('#data_table').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>數位學伴請假表單</title>
+    {% include 'backstage/head_source.html' %}
+  </head>
+  <body class="app flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <div class="clearfix">
+            <div class="card">
+              <div class="card-header">
+                <center><h5 class="my-2">數位學伴請假表單</h5></center>
+              </div>
+              <div class="card-body p-5">
+                <h5 class="font-weight-bold {% if check %} text-success {% else %} text-danger {% endif %}">{{ title }}</h5>
+                <p>{{ info }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'backstage/foot_source.html' %}
+  </body>
+  <script>
+  </script>
+</html>

@@ -1,0 +1,116 @@
+{% extends 'backstage/base.html' %}
+{% load static %}
+{% block title %}
+後台
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        活動列表
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-sm table-striped" id="data_table">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">活動名稱</th>
+                        <th class="text-center">開始時間</th>
+                        <th class="text-center">結束時間</th>
+                        <th class="text-center">地點</th>
+                        <th class="text-center">活動簡述</th>
+                        <th class="text-center">備註</th>
+                        <th class="text-center">操作</th>
+                        <th style="display: none;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for activity in activity_objs %}
+                <tr>
+                    <td class="text-center">{{ activity.id }}</td>
+                    <td class="text-center"><a href="/backstage/activity/attendance?Aid={{ activity.id }}" >{{ activity.name }}</a></td>
+                    <td class="text-center">{{ activity.starting_time }}</td>
+                    <td class="text-center">{{ activity.ending_time }}</td>
+                    <td class="text-center">{{ activity.location }}</td>
+                    <td class="text-center">{{ activity.description }}</td>
+                    <td class="text-center">{{ activity.note }}</td>
+                    <td class="text-center">
+                        <a class="btn btn-outline-secondary btn-sm"  onclick="if(confirm('確定要刪除？')){window.location='/checkin/delete_activity?Aid={{ activity.id }}'}" >刪除</a>
+                    </td>
+                    <td style="display: none;">{{ activity.name }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br/>
+        <center>
+            <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#exampleModalLong">新增</a>&nbsp;
+        </center>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <form method="POST" action="/checkin/add_activity" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">新增活動</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="form-group">
+                    <label for="photo">相片</label>
+                    <input type="file" name="photo" class="form-control" id="photo">
+                </div> -->
+                <div class="form-group">
+                    <label for="name">活動名稱</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="名稱">
+                </div>
+                <div class="form-group">
+                    <label for="starting_time">開始時間</label>
+                    <input type="text" class="form-control datetimepicker" name="starting_time" placeholder="開始時間">
+                </div>
+                <div class="form-group">
+                    <label for="ending_time">結束時間</label>
+                    <input type="text" class="form-control datetimepicker" name="ending_time" placeholder="結束時間">
+                </div>
+                <div class="form-group">
+                    <label for="location">活動地點</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="地點">
+                </div>
+                <div class="form-group">
+                    <label for="description">活動簡述</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="note">備註</label>
+                    <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center" >
+                <input type="hidden" id="isGeneral" name="isGeneral" value="False">
+                <input type="submit" class="btn btn-info" value="Save">
+            </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block customized_js %}
+<script>
+    $(document).ready(function() {
+        $(".datetimepicker").datetimepicker({
+          format: "Y-m-d H:00:00",
+          autoSize : true
+        });
+        var table = $('#data_table').DataTable();
+        table.order( [ 0, 'desc' ] ).draw();
+    });
+</script>
+{% endblock %}
