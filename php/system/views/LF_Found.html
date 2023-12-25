@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../src/logo.png">
+  <title>暨南大學數位學伴-後台管理系統</title>
+  <link href="../css/style.css" rel="stylesheet">
+  <link href="../vendors/css/chart.css" rel="stylesheet">
+</head>
+<style type="text/css">
+  .icon-modified
+  {
+    -webkit-filter:contrast(0);
+    margin-left: 5px;
+    margin-right: 10px;
+    width: 43px;
+    height: 43px;
+  }
+  .menu-sec-icon-spread
+  {
+    margin-left: 50px;
+  }
+  .menu-sec-icon
+  {
+    -webkit-filter:contrast(0);
+    width: 23px;
+    height: 18px;
+    margin-right: 10px;
+  }
+  .icon-small
+  {
+    width: 23px;
+    height: 23px;
+  }
+</style>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+  <header class="app-header navbar">
+    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a href="#" style="margin-right: 25px;">登出</a>
+  </header>
+
+  <div class="app-body">
+    <div class="sidebar">
+      <nav class="sidebar-nav">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="../views/homepage.html">
+              <img class="icon-modified" src="../src/home.png">首頁
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../views/user.html">
+              <img class="icon-modified" src="../src/users.png">使用者
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../views/pair.html">
+              <img class="icon-modified" src="../src/pair.png">學伴配對
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../views/attendance.html">
+              <img class="icon-modified" src="../src/sign.png">簽到紀錄
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../views/activity.html">
+              <img class="icon-modified" src="../src/gear.png">活動管理
+            </a>
+          </li>
+          <li class="nav-item nav-dropdown">
+            <a class="nav-link nav-dropdown-toggle" href="#"><img class="icon-modified" src="../src/magnifying_glass.png">失物招領</a>
+            <ul class="nav-dropdown-items">
+              <li class="nav-item">
+                <a class="nav-link" href="../views/LF_Lost.html">
+                  <img class="menu-sec-icon menu-sec-icon-spread" src="../src/ptr_right.png">遺失登記
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../views/LF_Found.html">
+                  <img class="menu-sec-icon menu-sec-icon-spread" src="../src/ptr_right.png">拾獲物品
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+    </div>
+    
+    <main class="main">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../views/homepage.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Lost & Found</a></li>
+        <li class="breadcrumb-item active">Found</li>
+      </ol>
+
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> 拾獲物品
+          </div>
+          <div class="card-body">
+            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+              <thead>
+                <tr>
+                  <th class="text-center">#</th>
+                  <th>物品名稱</th>
+                  <th>拾獲地點</th>
+                  <th>拾獲時間</th>
+                  <th>拾獲人</th>
+                  <th>物品簡述</th>
+                  <th>狀態</th>
+                  <th>備註</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>test1</td>
+                  <td>025 第幾台電腦</td>
+                  <td>2012/01/01 01:01:01</td>
+                  <td>Zbyněk Phoibos</td>
+                  <td>asdlkfjaskdfjlas</td>
+                  <td>
+                    <span class="badge badge-success">已領回</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>test1</td>
+                  <td>025 第幾台電腦</td>
+                  <td>2012/01/01 01:01:01</td>
+                  <td>Zbyněk Phoibos</td>
+                  <td>asdlkfjaskdfjlas</td>
+                  <td>
+                    <span class="badge badge-danger">超過九個月</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>test1</td>
+                  <td>025 第幾台電腦</td>
+                  <td>2012/01/01 01:01:01</td>
+                  <td>Zbyněk Phoibos</td>
+                  <td>asdlkfjaskdfjlas</td>
+                  <td>
+                    <span class="badge badge-secondary">未領回</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>test1</td>
+                  <td>025 第幾台電腦</td>
+                  <td>2012/01/01 01:01:01</td>
+                  <td>Zbyněk Phoibos</td>
+                  <td>asdlkfjaskdfjlas</td>
+                  <td>
+                    <span class="badge badge-warning">超過六個月</span>
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <nav>
+              <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    <span class="ml-auto"><a href="https://etutor.moe.gov.tw/edu_login.php">教育部數位學伴入口網</a></span>
+  </footer>
+
+  <script src="../vendors/js/jquery.min.js"></script>
+  <script src="../vendors/js/bootstrap.min.js"></script>
+  <script src="../vendors/js/popper.min.js"></script>
+  <script src="../vendors/js/pace.min.js"></script>
+  <script src="../vendors/js/Chart.min.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/views/main.js"></script>
+
+</body>
+</html>
