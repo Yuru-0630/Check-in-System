@@ -1,0 +1,246 @@
+/*
+Theme Name: Candice
+
+Adding support for language written in a Right To Left (RTL) direction is easy -
+it's just a matter of overwriting all the horizontal positioning attributes
+of your CSS stylesheet in a separate stylesheet file named rtl.css.
+
+https://codex.wordpress.org/Right_to_Left_Language_Support
+
+*/
+body {
+  direction: rtl;
+  unicode-bidi: embed; }
+
+ul, ol {
+  margin: 0 1.5em 1.5em 0; }
+
+dd {
+  margin: 0 0 1.5em 1.5em; }
+
+.entry-content table {
+  text-align: right; }
+
+.close-modal {
+  text-align: left; }
+
+select {
+  background-position: left center; }
+
+.search-submit {
+  margin-left: 0;
+  margin-right: -2em; }
+
+div.wpcf7-mail-sent-ok:before,
+div.wpcf7-validation-errors:before {
+  margin-right: 0;
+  margin-left: .5em; }
+
+.footer-navigation .social-menu-label {
+  margin-left: 0;
+  margin-right: .8em; }
+
+.nav-next {
+  text-align: left; }
+
+.icon-arrow-left {
+  left: auto;
+  right: -1rem;
+  margin-right: auto;
+  margin-left: .5rem;
+  transform: scale(-1, 1); }
+
+.icon-arrow-right {
+  right: auto;
+  left: -1rem;
+  margin-left: auto;
+  margin-right: .5rem;
+  transform: scale(-1, 1); }
+
+.posts-navigation .prev:before {
+  content: '';
+  margin-right: auto; }
+
+.posts-navigation .prev:after {
+  content: '\F105';
+  margin-left: .5em;
+  font-family: 'FontAwesome'; }
+
+.posts-navigation .next:after {
+  content: '';
+  margin-left: auto; }
+
+.posts-navigation .next:before {
+  content: '\F104';
+  margin-right: .5em;
+  font-family: 'FontAwesome'; }
+
+.primary-menu ul ul {
+  left: auto;
+  right: 100%; }
+
+.primary-menu ul li.page_item_has_children > a::before,
+.primary-menu ul li.menu-item-has-children > a::before {
+  content: '\F104';
+  position: absolute;
+  left: 1.5em;
+  margin-right: 1.5em;
+  right: auto;
+  margin-left: auto; }
+
+.primary-menu li.page_item_has_children > a::after,
+.primary-menu li.menu-item-has-children > a::after {
+  display: none; }
+
+.primary-menu li.page_item_has_children > a::before,
+.primary-menu li.menu-item-has-children > a::before {
+  content: '\F107';
+  margin-right: .5em;
+  font-family: 'FontAwesome'; }
+
+.primary-menu > li:last-of-type > a {
+  padding-right: 1.2em;
+  padding-left: 0; }
+
+.slicknav_nav .sub-menu a:not(.slicknav_item) {
+  padding: .5rem 2.5rem .5rem 0; }
+
+.slicknav_nav .sub-menu .sub-menu a:not(.slicknav_item) {
+  padding-left: auto;
+  padding-right: 4rem; }
+
+.slicknav_nav .sub-menu .sub-menu .sub-menu a:not(.slicknav_item) {
+  padding-left: auto;
+  padding-right: 5.5rem; }
+
+a.slicknav_item {
+  right: auto;
+  left: .75rem; }
+
+.slicknav_arrow i {
+  transform: scale(-1, 1); }
+
+.site-header .slicknav_nav .social-menu a {
+  margin-right: auto;
+  margin-left: 1rem; }
+
+.reply {
+  right: auto;
+  left: 2rem; }
+
+.comment-reply-title small a {
+  float: left; }
+
+ul.comment-list .children {
+  margin-left: auto;
+  margin-right: 2.5rem; }
+
+.bypostauthor .comment-author:before {
+  content: '\F007';
+  font-family: 'FontAwesome';
+  margin-right: auto;
+  margin-left: .3em; }
+
+.comment-author .avatar {
+  float: right;
+  margin-right: auto;
+  margin-left: 1rem; }
+
+@media only screen and (min-width: 45em) {
+  .comment-form-author,
+  .comment-form-email {
+    float: right; }
+  .comment-form-author {
+    padding-right: auto;
+    padding-left: .75em; }
+  .comment-form-email {
+    padding-left: auto;
+    padding-right: .75em; } }
+
+@media only screen and (min-width: 80em) {
+  .comment-form-author,
+  .comment-form-email,
+  .comment-form-url {
+    float: right; }
+  .comment-form-email {
+    padding-right: auto;
+    padding-left: .75em; }
+  .comment-form-url {
+    padding-left: auto;
+    padding-right: .75em; } }
+
+@media only screen and (min-width: 45em) {
+  .footer-widget-area .inner-wrapper .widget:nth-of-type(3n+1) {
+    padding: 0 0 0 1rem; }
+  .footer-widget-area .inner-wrapper .widget:nth-of-type(3n+3) {
+    padding: 0 1rem 0 0; } }
+
+.top-bar .social-menu,
+.top-bar .social-menu-toggle,
+.top-bar .site-search-toggle {
+  margin: 0 1.2em 0 -1.2em; }
+
+.social-menu-wrapper .social-menu-label {
+  margin-left: auto;
+  margin-right: .5em; }
+
+.sticky-post {
+  right: auto;
+  left: 1em; }
+
+.tags-links a {
+  margin: .2em 0 .2em .4em; }
+
+.share-links li:not(:last-of-type) {
+  margin-right: 0;
+  margin-left: .3em; }
+
+.more-link i {
+  margin-left: 0;
+  margin-right: .5em;
+  transform: scale(-1, 1); }
+
+@media only screen and (min-width: 45em) {
+  .grid-post:nth-of-type(odd) {
+    padding: 0 0 0 1rem; }
+  .grid-post:nth-of-type(even) {
+    padding: 0 1rem 0 0; }
+  .list-post .entry-featured {
+    float: right; }
+  .list-post .entry-categories,
+  .list-post .entry-title,
+  .list-post .entry-summary,
+  .list-post .entry-meta {
+    margin-left: 0;
+    margin-right: calc(50% + 1rem); } }
+
+@media only screen and (min-width: 80em) {
+  .grid-post:nth-of-type(odd) {
+    padding: 0 0 0 1.25rem; }
+  .grid-post:nth-of-type(even) {
+    padding: 0 1.25rem 0 0; } }
+
+@media only screen and (min-width: 45em) {
+  .author-avatar {
+    margin: 0 0 0 1.5rem; } }
+
+.author-social-links a {
+  margin-right: 0;
+  margin-left: .75rem; }
+
+.widget ul {
+  margin-left: auto;
+  margin-right: 0;
+  padding-left: auto;
+  padding-right: 0; }
+
+.candice-widget-social-menu .social-menu li {
+  margin: 0 0 .25rem 1.25rem; }
+
+.popular-posts img,
+.candice-widget-recent-posts-with-thumbnails img {
+  margin-right: 0;
+  margin-left: 1em; }
+
+.widget-area ul.instagram-pics li {
+  float: right; }
